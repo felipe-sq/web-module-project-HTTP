@@ -21,15 +21,19 @@ const Movie = (props) => {
             })
     }, [id]);
 
-    const deleteMovieButton = ()=> {
-        axios.delete(`http://localhost:5001/api/movies/${id}`)
-        .then(res => {
-          console.log("item deleted:", res);
-          setMovie(res.data);
-          deleteMovie(id);
-          push("/movies");
-        });
-      }
+    const deleteMovieButton = () => {
+      axios.delete(`http://localhost:5001/api/movies/${id}`)
+      .then(res => {
+        console.log("item deleted:", res);
+        deleteMovie(res.data);
+        push("/movies");
+      });
+    };
+
+    const favoriteMovieButton = () => {
+      addToFavorites(movie);
+      push('/movies');
+    };
 
     return(<div className="modal-page col">
         <div className="modal-dialog">
@@ -60,7 +64,7 @@ const Movie = (props) => {
                         </section>
                         
                         <section>
-                            <span className="m-2 btn btn-dark">Favorite</span>
+                            <span className="m-2 btn btn-dark" onClick={favoriteMovieButton}>Favorite</span>
                             <Link to={`/movies/edit/${movie.id}`} className="m-2 btn btn-success">Edit</Link>
                             <span className="delete"><input type="button" className="m-2 btn btn-danger" value="Delete" onClick={deleteMovieButton}/></span>
                         </section>

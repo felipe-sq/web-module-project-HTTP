@@ -15,15 +15,9 @@ const initialMovie = {
 const EditMovieForm = (props) => {
 	const { push } = useHistory();
 	const { id } = useParams();
+	const { setMovies } = props;
 
 	const [movie, setMovie] = useState(initialMovie)
-	// {
-	// 	title:"",
-	// 	director: "",
-	// 	genre: "",
-	// 	metascore: 0,
-	// 	description: ""
-	// });
 	
 	useEffect(() => {
 		axios.get(`http://localhost:5001/api/movies/${id}`)
@@ -43,7 +37,7 @@ const EditMovieForm = (props) => {
 		e.preventDefault();
 		axios.put(`http://localhost:5001/api/movies/${id}`, movie)
 			.then(res => {
-				setMovie(res.data);
+				setMovies(res.data);
 				push(`/movies/${id}`);
 			})
 			.catch(err => {
